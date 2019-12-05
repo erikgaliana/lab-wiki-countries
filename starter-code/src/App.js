@@ -1,26 +1,61 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
 
-function App() {
-  return (
+import './App.css';
+import { Route, Switch } from 'react-router-dom';
+import countries from './countries.json';
+import CountryList from './components/CountryList';
+import CountryDetails from './components/CountryDetails';
+
+class App extends Component {
+  state = {
+    countriesArray : countries,
+  }
+
+  render() {
+
+    
+    return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+       
+    <div id="root">
+    <div>
+      <nav className="navbar navbar-dark bg-primary mb-3">
+        <div className="navbar-brand">WikiCountries
+        </div>
+      </nav>
+      <div className="container">
+        <div className="row">
+          <div className="col-5" >
+            <div className="list-group">
+              
+               {/* {console.log(this.state.countriesArray)} */}
+               { this.state.countriesArray.map(( oneCountry,index) => {
+                     return <CountryList key={index} country={oneCountry} myfancykey={index}/>
+              })}
+
+            </div>
+          </div>
+          <div className="col-7">
+              <Switch>
+                
+                  {/* <Route exact path="/:countryId" component={CountryDetails} /> */}
+                  <Route exact path="/:countryId" render={(props) => <CountryDetails {...props} countryArr={this.state.countriesArray}/>}/>
+                
+                                                
+
+                </Switch>
+
+
+       
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
     </div>
   );
+
+  }
 }
 
 export default App;
